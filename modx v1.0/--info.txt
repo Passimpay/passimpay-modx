@@ -1,0 +1,21 @@
+1. Copy file passimpay.php to /assets/components/minishop2/payment/
+
+2. Copy file mspassimpay.class.php to /core/components/minishop2/custom/payment/
+
+3. Edit chunk for a finish order page (by default is tpl.msGetOrder) :
+	You must find string like that:
+	{if $payment_link}
+	   <p>{'ms2_payment_link' | lexicon : ['link' => $payment_link]}</p>
+	{/if}
+	and replace it with this code:
+	{if $payment.class == 'msPassimpay'}{$payment_link}{/if}
+	{if $payment_link && $payment.class != 'msPassimpay'}
+	    <p>{'ms2_payment_link' | lexicon : ['link' => $payment_link]}</p>
+	{/if}
+
+4. Make new snippet with name passimpay_select
+Insert code from file passimpay_select.snippet.php like this: https://vvww.info/images/paspay/snippet.jpg
+
+5. Add new payment system to minishop2 settings: https://vvww.info/images/paspay/settings2.jpg
+
+6. Fill system settings https://vvww.info/images/paspay/settings.jpg
