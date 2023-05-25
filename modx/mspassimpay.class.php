@@ -47,8 +47,8 @@ class msPassimpay extends msPaymentHandler
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+			//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+			//curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 			$result = curl_exec($curl);
 			curl_close( $curl );
 			$result = json_decode($result, true);
@@ -87,8 +87,8 @@ class msPassimpay extends msPaymentHandler
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+			//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+			//curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 			$result = curl_exec($curl);
 			curl_close( $curl );
 			$result = json_decode($result, true);
@@ -196,8 +196,8 @@ class msPaspy
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+		//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		//curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 		$result = curl_exec($curl);
 		curl_close( $curl );
 		$result = json_decode($result, true);
