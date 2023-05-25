@@ -1,7 +1,7 @@
 <?php
 #place to /assets/components/minishop2/payment/
 define('MODX_API_MODE', true);
-require dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/index.php';
+require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/index.php';
 $modx->getService('error','error.modError');
 $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
 $modx->setLogTarget('FILE');
