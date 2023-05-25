@@ -10,7 +10,7 @@ class msPassimpay extends msPaymentHandler
     public $config;
     public $namespace = 'mspassimpay';
 
-    function __construct(xPDOObject $object, $config = array())
+    public function __construct(xPDOObject $object, $config = array())
     {
 		$this->order = &$object;
 		$this->modx = $object->xpdo;
@@ -111,7 +111,7 @@ class msPassimpay extends msPaymentHandler
 		
     }
 
-    function makeSettings()
+    public function makeSettings()
 	{
 		$response = $this->modx->runProcessor('system/settings/create', [ 'key'=>'mspa_secret_key',  'xtype'=>'text-password', 'area'=>$this->namespace, 'namespace'=>'minishop2', 'name'=>'Secret Key', 'description'=>'From https://passimpay.io/account/platform' ]);
 		$response = $this->modx->runProcessor('system/settings/create', [ 'key'=>'mspa_platform_id', 'xtype'=>'textfield', 'area'=>$this->namespace, 'namespace'=>'minishop2', 'name'=>'Platform ID', 'description'=>'From https://passimpay.io/account/platform' ]);
@@ -121,7 +121,7 @@ class msPassimpay extends msPaymentHandler
 
 	}
 
-	function getPaymentLink()
+	public function getPaymentLink()
 	{
 		$prop = $this->order->get('properties');
 		$data = &$prop['passimpay'];
@@ -180,7 +180,7 @@ class msPaspy
 		}
 	}
 
-	function getCurList()
+	public function getCurList()
 	{
 		$url = 'https://passimpay.io/api/currencies';
 		$payload = http_build_query(['platform_id' => $this->config['platform_id'] ]);
