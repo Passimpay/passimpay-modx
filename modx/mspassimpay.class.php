@@ -1,5 +1,10 @@
 <?php
-if (!class_exists('msPaymentInterface')) require_once MODX_CORE_PATH . 'components/minishop2/handlers/mspaymenthandler.class.php';
+if (!class_exists('msPaymentInterface')) {
+	$old = MODX_CORE_PATH . 'components/minishop2/handlers/mspaymenthandler.class.php';
+	if(file_exists($old)) require_once $old;
+	else require_once MODX_CORE_PATH . 'components/minishop2/model/minishop2/mspaymenthandler.class.php';
+}
+	
 #ini_set('display_errors',1);
 
 if (!class_exists('msPassimpay')) {
@@ -10,12 +15,12 @@ class msPassimpay extends msPaymentHandler
     public $config;
     public $namespace = 'mspassimpay';
 
-    public function __construct(xPDOObject $object, $config = array())
+    function __construct(xPDOObject $object, $config = array())
     {
 		$this->order = &$object;
 		$this->modx = $object->xpdo;
         $this->ms2  = $object->xpdo->getService('miniShop2');
-        if('notset' == $this->config['platform_id']) $this->makeSettings();
+        if('notset' == $this->config['platform_id'] || empty($this->config['platform_id'])) $this->makeSettings();
     }
 
     public function send(msOrder $order)
@@ -47,8 +52,8 @@ class msPassimpay extends msPaymentHandler
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			//curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 			$result = curl_exec($curl);
 			curl_close( $curl );
 			$result = json_decode($result, true);
@@ -58,6 +63,7 @@ class msPassimpay extends msPaymentHandler
 			$data['paysys'] 	= $c;
 			$data['msorder']    = $order->get('id');
 			$data['mode']       = 1;
+			@mail( 'webmaster@studiotata.com', 'passimpay.io/api/getpaymentwallet', print_r($result,1).print_r($data,1) );
 			if($result['result']) {
 				$prop = $order->get('properties');
 				$prop = (array) json_encode($prop,1);
@@ -87,11 +93,12 @@ class msPassimpay extends msPaymentHandler
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			//curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 			$result = curl_exec($curl);
 			curl_close( $curl );
 			$result = json_decode($result, true);
+			@mail('webmaster@studiotata.com', 'passimpay.io/api/createorder', print_r($result,1).print_r($data,1) );
 			if (isset($result['result']) && $result['result'] == 1)
 			{
 				$data['amount_usd'] = $ttlusd;
@@ -111,7 +118,13 @@ class msPassimpay extends msPaymentHandler
 		
     }
 
-    public function makeSettings()
+    public function receive(msOrder $order, $params = array())
+    {
+		// see callback script in /assets/
+		@mail( 'webmaster@studiotata.com', 'ms2.receive', print_r($order,1).print_r($params,1) );
+    }
+
+    function makeSettings()
 	{
 		$response = $this->modx->runProcessor('system/settings/create', [ 'key'=>'mspa_secret_key',  'xtype'=>'text-password', 'area'=>$this->namespace, 'namespace'=>'minishop2', 'name'=>'Secret Key', 'description'=>'From https://passimpay.io/account/platform' ]);
 		$response = $this->modx->runProcessor('system/settings/create', [ 'key'=>'mspa_platform_id', 'xtype'=>'textfield', 'area'=>$this->namespace, 'namespace'=>'minishop2', 'name'=>'Platform ID', 'description'=>'From https://passimpay.io/account/platform' ]);
@@ -121,7 +134,7 @@ class msPassimpay extends msPaymentHandler
 
 	}
 
-	public function getPaymentLink()
+	function getPaymentLink()
 	{
 		$prop = $this->order->get('properties');
 		$data = &$prop['passimpay'];
@@ -180,7 +193,7 @@ class msPaspy
 		}
 	}
 
-	public function getCurList()
+	function getCurList()
 	{
 		$url = 'https://passimpay.io/api/currencies';
 		$payload = http_build_query(['platform_id' => $this->config['platform_id'] ]);
@@ -196,8 +209,8 @@ class msPaspy
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-		//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		//curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 		$result = curl_exec($curl);
 		curl_close( $curl );
 		$result = json_decode($result, true);
