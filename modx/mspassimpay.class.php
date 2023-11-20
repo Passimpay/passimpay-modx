@@ -48,7 +48,7 @@ class msPassimpay extends msPaymentHandler
 			curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
-			curl_setopt($curl, CURLOPT_URL, 'https://passimpay.io/api/getpaymentwallet');
+			curl_setopt($curl, CURLOPT_URL, 'https://api.passimpay.io/getpaymentwallet');
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -63,7 +63,7 @@ class msPassimpay extends msPaymentHandler
 			$data['paysys'] 	= $c;
 			$data['msorder']    = $order->get('id');
 			$data['mode']       = 1;
-			@mail( 'webmaster@studiotata.com', 'passimpay.io/api/getpaymentwallet', print_r($result,1).print_r($data,1) );
+			
 			if($result['result']) {
 				$prop = $order->get('properties');
 				$prop = (array) json_encode($prop,1);
@@ -89,7 +89,7 @@ class msPassimpay extends msPaymentHandler
 			curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
-			curl_setopt($curl, CURLOPT_URL, 'https://passimpay.io/api/createorder');
+			curl_setopt($curl, CURLOPT_URL, 'https://api.passimpay.io/createorder');
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_ENCODING, 'gzip');
 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -98,7 +98,7 @@ class msPassimpay extends msPaymentHandler
 			$result = curl_exec($curl);
 			curl_close( $curl );
 			$result = json_decode($result, true);
-			@mail('webmaster@studiotata.com', 'passimpay.io/api/createorder', print_r($result,1).print_r($data,1) );
+			
 			if (isset($result['result']) && $result['result'] == 1)
 			{
 				$data['amount_usd'] = $ttlusd;
@@ -195,7 +195,7 @@ class msPaspy
 
 	function getCurList()
 	{
-		$url = 'https://passimpay.io/api/currencies';
+		$url = 'https://api.passimpay.io/currencies';
 		$payload = http_build_query(['platform_id' => $this->config['platform_id'] ]);
 		$hash = hash_hmac('sha256', $payload, $this->config['secret_key'] );
 		$data = [ 'platform_id' => $this->config['platform_id'], 'hash' => $hash,];
