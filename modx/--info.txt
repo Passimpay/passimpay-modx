@@ -14,8 +14,8 @@
 	{/if}
 
 4. Make new snippet with name passimpay_select
-Insert code from file passimpay_select.snippet.php like this: https://vvww.info/images/paspay/snippet.jpg
+Insert code from file passimpay_select.snippet.php like this: snippet.jpg (included in this archive)
 
-5. Add new payment system to minishop2 settings: https://vvww.info/images/paspay/settings2.jpg
+5. Add new payment system to minishop2 settings: settings2.jpg (included in this archive)
 
-6. Fill system settings https://vvww.info/images/paspay/settings.jpg
+6. Fill system settings settings.jpg (included in this archive)

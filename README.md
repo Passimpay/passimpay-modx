@@ -1,8 +1,13 @@
-This **MODX** payment module is developed and powered by PassimPay.
+# PassimPay for MODX / miniShop2
 
-If you have any questions or face difficulties in module operation, please, contact us:
+Payment modules using PassimPay API v2.
 
-* support@passimpay.io - PassimPay support service<br/>
-* ceo@passimpay.io - Assitance for Business 
+| Module | Version | Source directory | Download | Installation and update |
+| --- | --- | --- | --- | --- |
+| MODX / miniShop2 | 1.0.3 | `modx` | [passimpay_modx.zip](https://cdn1.passimpay.io/upload/passimpay_modx.zip) | [Instructions](UPGRADE.md) |
 
-Stay with PassimPay and grow your business!
+Use the module ZIP linked above for installation. The GitHub source ZIP contains the repository layout.
+
+Create a platform in your [PassimPay account](https://account.passimpay.io/) to obtain the Platform ID and API Key.
+
+[PassimPay support](https://passimpay.io/en/contacts)
